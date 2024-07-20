@@ -1,15 +1,23 @@
 {
   "short_name": "GoPymes",
-  "name": "Transformando tu negocio",
+  "name": "GoPymes - CRM Ágil para Empresas",
   "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "src": "/imagespublic/logo.svg",
+      "type": "image/svg",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/imagespublic/LogoConTextoPNGpng",
+      "type": "image/png",
+      "sizes": "512x512"
     }
   ],
-  "start_url": ".",
-  "display": "standalone",
+  "start_url": "/",
+  "background_color": "#ffffff",
   "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "display": "standalone",
+  "orientation": "portrait",
+  "description": "Transforma tu negocio con GoPymes, un CRM diseñado para la gestión ágil y eficiente de empresas.",
+  "scope": "/"
 }

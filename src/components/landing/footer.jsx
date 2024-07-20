@@ -13,7 +13,7 @@ import {
 } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 import { FaInstagram, FaLinkedinIn } from 'react-icons/fa';
-import { BsTwitterX } from "react-icons/bs";
+import { BsTwitterX } from 'react-icons/bs';
 import { BiMailSend } from 'react-icons/bi';
 
 const Logo = (props: any) => {
@@ -60,6 +60,10 @@ const ListHeader = ({ children }: { children: ReactNode }) => {
   );
 };
 
+const getCurrentYear = () => {
+  return new Date().getFullYear();
+};
+
 export default function LargeWithNewsletter() {
   return (
     <Box
@@ -71,11 +75,16 @@ export default function LargeWithNewsletter() {
           templateColumns={{ sm: '1fr 1fr', md: '2fr 1fr 1fr 2fr' }}
           spacing={8}
         >
-          <Stack spacing={4}>
+          <Stack align={'center'} spacing={4}>
             <Box>
               <Logo />
             </Box>
-            <Text fontSize={'sm'}>© 2024 GoPymes. Todos los derechos reservados</Text>
+            <Text fontSize={'sm'}>
+              © {getCurrentYear()} <Box as="a" href="#">GoPymes</Box>. Todos los derechos reservados
+            </Text>
+            <Text fontSize={'sm'}>
+              Hecho con ❤️ por <Box as="a" href="https://www.vefixy.com" target="_blank" rel="noopener noreferrer">Vefixy</Box>
+            </Text>
             <Stack direction={'row'} spacing={6}>
               <SocialButton label={'Twitter'} href={'https://x.com/vefixy'}>
                 <BsTwitterX />
@@ -118,7 +127,7 @@ export default function LargeWithNewsletter() {
               Legal
             </Box>
             <Box as="a" href={'#'}>
-            Política de privacidad
+              Política de privacidad
             </Box>
             <Box as="a" href={'#'}>
               Estado

@@ -1,83 +1,90 @@
 import React from 'react';
-import { Box, Flex, Heading, Image, useColorModeValue, useMediaQuery } from '@chakra-ui/react';
-import { useEffect, useRef } from 'react';
+import { Box, Heading, Image, useColorModeValue, useMediaQuery } from '@chakra-ui/react';
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const Clients = () => {
-  const bg = useColorModeValue('gray.50', 'gray.800');
+  const bg = useColorModeValue('blue.800', 'gray.800');
+  const text = useColorModeValue('white', 'white');
   const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
-  const containerRef = useRef(null);
-
-  useEffect(() => {
-    const container = containerRef.current;
-    let animation;
-
-    const startAnimation = () => {
-      const scrollAmount = 1;
-      let currentScrollPosition = 0;
-
-      const step = () => {
-        currentScrollPosition += scrollAmount;
-        container.scrollLeft = currentScrollPosition;
-
-        if (currentScrollPosition >= container.scrollWidth / 2) {
-          currentScrollPosition = 0;
-        }
-
-        animation = requestAnimationFrame(step);
-      };
-
-      animation = requestAnimationFrame(step);
-    };
-
-    startAnimation();
-
-    return () => {
-      cancelAnimationFrame(animation);
-    };
-  }, []);
 
   const clients = [
-    "./imagespublic/clients/garzonlogo.svg",
-    "./imagespublic/clients/garzonlogo.svg",
-    "./imagespublic/clients/garzonlogo.svg",
-    "./imagespublic/clients/garzonlogo.svg",
-    "./imagespublic/clients/garzonlogo.svg"
+    "./imagespublic/clients/akeneo.png",
+    "./imagespublic/clients/contentstack.png",
+    "./imagespublic/clients/contentful.png",
+    "./imagespublic/clients/vefixylogo.svg"
   ];
 
+  const settings = {
+    dots: false,
+    infinite: true,
+    speed: 5000, // velocidad para el deslizamiento
+    slidesToShow: isLargerThan768 ? 3 : 2, // varios logos al mismo tiempo
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 0, // deslizamiento continuo
+    cssEase: 'linear',
+    pauseOnHover: false,
+    arrows: false,
+  };
+
   return (
-    <Box bg={bg} p="2rem">
-      <Heading as="h2" size="xl" textAlign="center" mb="8">
+    <Box bg={bg} p={{ base: '1rem', md: '2rem' }} overflowX="hidden" position="relative">
+      <Heading as="h2" size="xl" color={text} textAlign="center" >
         Nuestros Clientes
       </Heading>
       <Box
-        ref={containerRef}
         overflow="hidden"
-        whiteSpace="nowrap"
-        maxW="2500px"
-        mx="auto"
         position="relative"
+        width="auto"
       >
-        <Flex
-          align="center"
-          justify="start"
-          wrap="nowrap"
-          style={{
-            display: 'flex',
-            animation: 'scroll 40s linear infinite'
-          }}
-        >
+        <Slider {...settings}>
           {clients.concat(clients).map((client, index) => (
             <Box
               key={index}
-              w={isLargerThan768 ? "30%" : "50%"}
-              p="4"
               display="inline-block"
-              whiteSpace="normal"
+              sx={{ '&:focus': { outline: 'none' } }}
+              mx="4px" // Espacio de píxeles entre cada logo
             >
-              <Image src={client} alt={`Cliente ${index}`} />
+              <Image
+                src={client}
+                alt={`Cliente ${index}`}
+                boxSize={{ base: '100px', md: '150px' }}
+                objectFit="contain"
+                mx="auto"
+              />
             </Box>
           ))}
-        </Flex>
+        </Slider>
+      </Box>
+      <Box
+        position="absolute"
+        right="8px"
+        top="50%"
+        transform="translateY(-50%)"
+        overflow="hidden"
+        maxHeight="100%"
+      >
+        <Image
+          src="./imagespublic/svg/stars.svg"
+          alt="Stars decoration"
+          objectFit="cover"
+        />
+      </Box>
+      <Box
+        position="absolute"
+        left="8px"
+        top="50%"
+        transform="translateY(-50%)"
+        overflow="hidden"
+        maxHeight="100%"
+      >
+        <Image
+          src="./imagespublic/svg/stars.svg"
+          alt="Stars decoration"
+          objectFit="cover"
+        />
       </Box>
     </Box>
   );

@@ -1,3 +1,13 @@
-# https://www.robotstxt.org/robotstxt.html
+# Permitir que todos los rastreadores indexen el sitio
 User-agent: *
-Disallow:
+Allow: /
+
+# Desautorizar el indexado de los siguientes directorios
+Disallow: /login/
+
+# Desautorizar el indexado de tipos de archivos específicos
+Disallow: /*.pdf$
+Disallow: /*.doc$
+
+# Especificar la ubicación del sitemap
+Sitemap: https://www.gopymes.com/sitemap.xml

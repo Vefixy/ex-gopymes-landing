@@ -10,12 +10,27 @@ import {
   IconButton,
   Icon,
   useColorModeValue,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalBody,
+  Spinner,
 } from '@chakra-ui/react';
 import { IoIosPause, IoIosPlay } from "react-icons/io";
+import { motion } from 'framer-motion';
+import Confetti from 'react-confetti';
+import { useNavigate } from 'react-router-dom';
 
 export default function CallToActionWithVideo() {
   const [isPlaying, setIsPlaying] = useState(true);
   const videoRef = useRef(null);
+  const [showConfetti, setShowConfetti] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const navigate = useNavigate();
+  const buttonBgColor = useColorModeValue('blue.400', 'blue.600');
+  const buttonHoverBgColor = useColorModeValue('blue.500', 'blue.700');
+  const buttonColor = useColorModeValue('white', 'gray.800');
 
   const handlePlayPause = () => {
     if (isPlaying) {
@@ -26,8 +41,30 @@ export default function CallToActionWithVideo() {
     setIsPlaying(!isPlaying);
   };
 
+  const handleButtonClick = () => {
+    setShowConfetti(true);
+    onOpen();
+    setTimeout(() => {
+      onClose();
+      navigate('/login'); // Cambia '/login' por el link deseado
+    }, 2000);
+  };
+
+  const buttonVariants = {
+    hover: {
+      scale: 1.1,
+      transition: {
+        duration: 0.3,
+      },
+    },
+    pressed: {
+      scale: 0.9,
+    },
+  };
+
   return (
     <Container maxW={'7xl'}>
+      {showConfetti && <Confetti />}
       <Stack
         align={'center'}
         spacing={{ base: 8, md: 10 }}
@@ -62,17 +99,27 @@ export default function CallToActionWithVideo() {
             Somos un <b>CRM</b> diseñado para empresas <b>argentinas</b>, permitiendo una
             gestión ágil y eficiente de tus procesos empresariales.
           </Text>
-          <Stack spacing={{ base: 4, sm: 4 }} direction={{ base: 'column', sm: 'row' }}>
-            <Button
-              rounded={'full'}
-              size={'lg'}
-              fontWeight={'bold'}
-              px={6}
-              colorScheme={'blue'}
-              bg={'blue.400'}
-              _hover={{ bg: 'blue.500' }}>
-              Comenzar ahora
-            </Button>
+          <Stack spacing={{ base: 4, sm: 4 }} direction={{ base: 'column', sm: 'row' }} justify="center">
+            <motion.div
+              whileHover="hover"
+              whileTap="pressed"
+              variants={buttonVariants}
+              onClick={handleButtonClick}
+              style={{ position: 'relative' }}
+            >
+              <Button
+                rounded={'full'}
+                size={'lg'}
+                fontWeight={'bold'}
+                px={6}
+                bg={buttonBgColor}
+                _hover={{ bg: buttonHoverBgColor }}
+                color={buttonColor}
+                variant="solid"
+              >
+                Comenzar ahora
+              </Button>
+            </motion.div>
             <Button
               rounded={'full'}
               size={'lg'}
@@ -135,6 +182,24 @@ export default function CallToActionWithVideo() {
           </Box>
         </Flex>
       </Stack>
+
+      <Modal isOpen={isOpen} onClose={onClose} isCentered>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalBody display="flex" justifyContent="center" alignItems="center" height="200px">
+            <Spinner
+              thickness="4px"
+              speed="0.65s"
+              emptyColor="gray.200"
+              color="blue.500"
+              size="xl"
+              as={motion.div}
+              animate={{ rotate: 360 }}
+              transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+            />
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     </Container>
   );
 }
