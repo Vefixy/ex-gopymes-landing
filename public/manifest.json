@@ -8,9 +8,9 @@
       "sizes": "192x192"
     },
     {
-      "src": "/imagespublic/LogoConTextoPNGpng",
+      "src": "/imagespublic/LogoConTextoPNG.png",
       "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "58x58"
     }
   ],
   "start_url": "/",

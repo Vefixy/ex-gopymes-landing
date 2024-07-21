@@ -1,0 +1,10 @@
+/* TEAM */
+    Developer: Vefixy
+    Twitter: @vefixy
+    From: Buenos Aires, Argentina
+
+/* SITE */
+    Last update: 2024-07-20
+    Standards: HTML5, CSS3, JavaScript
+    Components: React, Node.js, Chakra UI
+    Software: Visual Studio Code

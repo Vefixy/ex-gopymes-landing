@@ -15,3 +15,14 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById('root')
 );
+
+// service worker
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js').then(registration => {
+      //console.log('ServiceWorker registrado con éxito:', registration);
+    }).catch(error => {
+      //console.log('Fallo al registrar el ServiceWorker:', error);
+    });
+  });
+}

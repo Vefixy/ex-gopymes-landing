@@ -1,0 +1,13 @@
+# Permitir que todos los rastreadores indexen el sitio
+User-agent: *
+Allow: /
+
+# Desautorizar el indexado de los siguientes directorios
+Disallow: /login/
+
+# Desautorizar el indexado de tipos de archivos específicos
+Disallow: /*.pdf$
+Disallow: /*.doc$
+
+# Especificar la ubicación del sitemap
+Sitemap: https://www.gopymes.vefixy.com/sitemap.xml

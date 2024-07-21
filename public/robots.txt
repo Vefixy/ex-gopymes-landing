@@ -10,4 +10,4 @@ Disallow: /*.pdf$
 Disallow: /*.doc$
 
 # Especificar la ubicación del sitemap
-Sitemap: https://www.gopymes.com/sitemap.xml
+Sitemap: https://www.gopymes.vefixy.com/sitemap.xml
