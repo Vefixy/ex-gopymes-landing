@@ -7,6 +7,9 @@ import Testimonials from '../components/landing/testimonials';
 import Contact from '../components/landing/contact';
 import Footer from '../components/landing/footer';
 import ScrollTop from '../components/landing/scrolltop';
+import WhatsAppButton from '../components/landing/whatsappButton';
+import CookiesPolicy from '../components/landing/cookiesPolicy';
+
 
 const Home = () => {
   const aboutRef = useRef(null);
@@ -52,6 +55,8 @@ const Home = () => {
       </div>
       <Footer />
       <ScrollTop />
+      <WhatsAppButton />
+      <CookiesPolicy />
     </>
   );
 };

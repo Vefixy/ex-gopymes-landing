@@ -17,7 +17,7 @@ import {
   useColorModeValue,
   VStack,
 } from '@chakra-ui/react';
-import { BsGithub, BsLinkedin, BsPerson, BsTwitterX } from 'react-icons/bs';
+import { BsInstagram, BsLinkedin, BsPerson, BsTwitterX } from 'react-icons/bs';
 import { MdEmail, MdOutlineEmail } from 'react-icons/md';
 
 const confetti = {
@@ -79,13 +79,13 @@ export default function ContactFormWithSocialButtons() {
                   />
                 </Tooltip>
 
-                <Box as="a" href="https://github.com/vefixy">
+                <Box as="a" href="https://instagram.com/vefixy">
                   <IconButton
-                    aria-label="github"
+                    aria-label="instagram"
                     variant="ghost"
                     size="lg"
                     fontSize="3xl"
-                    icon={<BsGithub />}
+                    icon={<BsInstagram />}
                     _hover={{
                       bg: 'blue.500',
                       color: useColorModeValue('white', 'gray.700'),

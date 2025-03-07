@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   Container,
   Stack,
@@ -23,7 +23,7 @@ import Confetti from 'react-confetti';
 import { useNavigate } from 'react-router-dom';
 
 export default function CallToActionWithVideo() {
-  const [isPlaying, setIsPlaying] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(false); // Estado inicial de reproducción
   const videoRef = useRef(null);
   const [showConfetti, setShowConfetti] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -31,6 +31,20 @@ export default function CallToActionWithVideo() {
   const buttonBgColor = useColorModeValue('blue.400', 'blue.600');
   const buttonHoverBgColor = useColorModeValue('blue.500', 'blue.700');
   const buttonColor = useColorModeValue('white', 'gray.800');
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkIfMobile = () => {
+      const isMobileDevice = window.innerWidth <= 1024; // Detectar dispositivos móviles o tablets
+      setIsMobile(isMobileDevice);
+      setIsPlaying(!isMobileDevice); // Si no es móvil, empieza en (autoplay)
+    };
+    checkIfMobile();
+    window.addEventListener('resize', checkIfMobile);
+    return () => {
+      window.removeEventListener('resize', checkIfMobile);
+    };
+  }, []);
 
   const handlePlayPause = () => {
     if (isPlaying) {
@@ -46,7 +60,7 @@ export default function CallToActionWithVideo() {
     onOpen();
     setTimeout(() => {
       onClose();
-      navigate('/login'); // Cambia '/login' por el link deseado
+      navigate('/login');
     }, 2000);
   };
 
@@ -116,6 +130,7 @@ export default function CallToActionWithVideo() {
                 _hover={{ bg: buttonHoverBgColor }}
                 color={buttonColor}
                 variant="solid"
+                width={{ base: '100%', sm: 'auto' }}
               >
                 Comenzar ahora
               </Button>
@@ -126,7 +141,9 @@ export default function CallToActionWithVideo() {
               fontWeight={'normal'}
               px={6}
               variant="outline"
-              colorScheme="blue">
+              colorScheme="blue"
+              width={{ base: '100%', sm: 'auto' }}
+            >
               Cómo funciona
             </Button>
           </Stack>
@@ -164,11 +181,11 @@ export default function CallToActionWithVideo() {
               left={4}
               bottom={4}
               onClick={handlePlayPause}
-              zIndex={1}  // Asegura que el botón esté en un z-index superior al video
+              zIndex={1}
             />
             <video
               ref={videoRef}
-              autoPlay
+              autoPlay={!isMobile} // Si es móvil o tablet, no reproduce automáticamente
               loop
               muted
               style={{

@@ -4,25 +4,31 @@ import {
   Flex,
   Image,
   Button,
+  Text,
+  useColorMode,
   useColorModeValue,
   Menu,
   MenuButton,
   MenuList,
   MenuItem,
-  Text,
+  Drawer,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  DrawerBody,
+  DrawerHeader,
+  IconButton,
+  useDisclosure,
+  Spinner,
   Modal,
   ModalOverlay,
   ModalContent,
   ModalBody,
-  useDisclosure,
-  Spinner,
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 import { TiChevronRightOutline } from 'react-icons/ti';
-import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import { FaChevronDown, FaBars } from 'react-icons/fa';
 import { BsSun, BsMoonStarsFill } from 'react-icons/bs';
-import { useColorMode } from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
 import Confetti from 'react-confetti';
 
 const Navbar = () => {
@@ -35,9 +41,8 @@ const Navbar = () => {
   const textColor = useColorModeValue('gray.800', 'white');
   const navButtonColor = useColorModeValue('gray.800', 'white');
   const [showConfetti, setShowConfetti] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
-  const { isOpen: isModalOpen, onOpen, onClose } = useDisclosure();
-  const navigate = useNavigate();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen: isDrawerOpen, onOpen: onDrawerOpen, onClose: onDrawerClose } = useDisclosure();
 
   const buttonVariants = {
     hover: {
@@ -54,19 +59,17 @@ const Navbar = () => {
   const handleButtonClick = () => {
     setShowConfetti(true);
     onOpen();
-
     setTimeout(() => {
       onClose();
-      navigate('/login');
+      window.location.href = '/login';  // Redirige a /login directamente
     }, 2000);
   };
 
-  const handleMenuToggle = () => {
-    setIsOpen(!isOpen);
-  };
-
-  const navigateTo = (hash) => {
-    window.location.hash = hash;
+  const handleMenuButtonClick = (hash) => {
+    onDrawerClose(); // Cierra el Drawer primero
+    setTimeout(() => {
+      window.location.hash = hash; // Navega a la sección una vez cerrado el Drawer
+    }, 200); // Le damos un pequeño retardo para permitir el cierre del Drawer
   };
 
   return (
@@ -97,50 +100,57 @@ const Navbar = () => {
           </Text>
         </Flex>
 
-        <Flex align="center" justify="center" flex="1">
-          <Box display={{ base: 'none', md: 'flex' }} alignItems="center">
-            <Button
-              variant="link"
-              _hover={{ textDecoration: 'none' }}
-              mr="4"
-              fontWeight="bold"
-              fontSize="1rem"
-              color={navButtonColor}
-              onClick={() => navigateTo('#about')}
-            >
-              Sobre nosotros
-            </Button>
-            <Button
-              variant="link"
-              _hover={{ textDecoration: 'none' }}
-              mr="4"
-              fontWeight="bold"
-              fontSize="1rem"
-              color={navButtonColor}
-              onClick={() => navigateTo('#clients')}
-            >
-              Clientes
-            </Button>
-            <Button
-              variant="link"
-              _hover={{ textDecoration: 'none' }}
-              mr="4"
-              fontWeight="bold"
-              fontSize="1rem"
-              color={navButtonColor}
-              onClick={() => navigateTo('#contact')}
-            >
-              Contacto
-            </Button>
-          </Box>
+        <Box display={{ base: 'block', md: 'none' }}>
+          <IconButton
+            icon={<FaBars />}
+            onClick={onDrawerOpen}
+            variant="ghost"
+            aria-label="Open Menu"
+            color={navButtonColor}
+          />
+        </Box>
 
-          <Menu isOpen={isOpen} onClose={handleMenuToggle}>
+        <Flex align="center" justify="center" flex="1" display={{ base: 'none', md: 'flex' }}>
+          <Button
+            variant="link"
+            _hover={{ textDecoration: 'none' }}
+            mr="4"
+            fontWeight="bold"
+            fontSize="1rem"
+            color={navButtonColor}
+            onClick={() => handleMenuButtonClick('#about')}
+          >
+            Sobre nosotros
+          </Button>
+          <Button
+            variant="link"
+            _hover={{ textDecoration: 'none' }}
+            mr="4"
+            fontWeight="bold"
+            fontSize="1rem"
+            color={navButtonColor}
+            onClick={() => handleMenuButtonClick('#clients')}
+          >
+            Clientes
+          </Button>
+          <Button
+            variant="link"
+            _hover={{ textDecoration: 'none' }}
+            mr="4"
+            fontWeight="bold"
+            fontSize="1rem"
+            color={navButtonColor}
+            onClick={() => handleMenuButtonClick('#contact')}
+          >
+            Contacto
+          </Button>
+
+          <Menu>
             <MenuButton
               as={Button}
-              rightIcon={isOpen ? <FaChevronUp /> : <FaChevronDown />}
+              rightIcon={<FaChevronDown />}
               variant="link"
               _hover={{ textDecoration: 'none' }}
-              onClick={handleMenuToggle}
               color={navButtonColor}
               fontWeight="bold"
             >
@@ -171,7 +181,7 @@ const Navbar = () => {
           </Menu>
         </Flex>
 
-        <Flex align="center">
+        <Flex align="center" display={{ base: 'none', md: 'flex' }}>
           <Button
             aria-label="Toggle Color Mode"
             onClick={toggleColorMode}
@@ -205,7 +215,95 @@ const Navbar = () => {
         </Flex>
       </Flex>
 
-      <Modal isOpen={isModalOpen} onClose={onClose} isCentered>
+      <Drawer isOpen={isDrawerOpen} placement="right" onClose={onDrawerClose}>
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerHeader>Menu de navegación</DrawerHeader>
+          <DrawerBody display="flex" flexDirection="column" alignItems="center" justifyContent="center">
+            <Button
+              variant="link"
+              _hover={{ textDecoration: 'none' }}
+              mb="4"
+              fontWeight="bold"
+              fontSize="1.25rem"
+              color={navButtonColor}
+              onClick={() => handleMenuButtonClick('#about')}
+            >
+              Sobre nosotros
+            </Button>
+            <Button
+              variant="link"
+              _hover={{ textDecoration: 'none' }}
+              mb="4"
+              fontWeight="bold"
+              fontSize="1.25rem"
+              color={navButtonColor}
+              onClick={() => handleMenuButtonClick('#clients')}
+            >
+              Clientes
+            </Button>
+            <Button
+              variant="link"
+              _hover={{ textDecoration: 'none' }}
+              mb="4"
+              fontWeight="bold"
+              fontSize="1.25rem"
+              color={navButtonColor}
+              onClick={() => handleMenuButtonClick('#contact')}
+            >
+              Contacto
+            </Button>
+            <Button
+              variant="link"
+              _hover={{ textDecoration: 'none' }}
+              mb="4"
+              fontWeight="bold"
+              fontSize="1.25rem"
+              color={navButtonColor}
+              onClick={onDrawerClose}
+            >
+              Más información
+            </Button>
+            <motion.div
+              whileHover="hover"
+              whileTap="pressed"
+              variants={buttonVariants}
+              onClick={() => {
+                handleButtonClick();
+                onDrawerClose();
+              }}
+              style={{ position: 'relative' }}
+            >
+              <Button
+                bg={buttonBgColor}
+                _hover={{ bg: buttonHoverBgColor }}
+                color={buttonColor}
+                variant="solid"
+                borderRadius="8px"
+                p="0.75rem 1.5rem"
+                fontSize="1.25rem"
+                fontWeight="bold"
+                mb="4"
+              >
+                Comencemos
+              </Button>
+            </motion.div>
+            <Button
+              aria-label="Toggle Color Mode"
+              onClick={() => {
+                toggleColorMode();
+                onDrawerClose();
+              }}
+              mb="4"
+            >
+              {colorMode === 'light' ? <BsMoonStarsFill /> : <BsSun />}
+            </Button>
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
+
+      <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
         <ModalContent>
           <ModalBody display="flex" justifyContent="center" alignItems="center" height="200px">

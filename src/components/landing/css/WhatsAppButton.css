@@ -1,0 +1,41 @@
+.whatsapp-button-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+  }
+  
+  .whatsapp-button-container .floating-whatsapp-chatbox {
+    min-height: 350px; /* Aumenta la altura mínima para asegurar espacio para el mensaje y el placeholder */
+    height: auto; /* Permite que el contenedor se ajuste dinámicamente */
+    max-height: 90vh; /* El contenedor puede crecer hasta el 90% de la altura de la pantalla */
+    overflow-y: auto; /* Barra de desplazamiento si el contenido excede la altura máxima */
+  }
+  
+  /* Ajustes para pantallas pequeñas (móviles) */
+  @media screen and (max-width: 600px) {
+    .whatsapp-button-container {
+      bottom: 10px;
+      right: 10px;
+    }
+  
+    .whatsapp-button-container .floating-whatsapp-chatbox {
+      min-height: 300px; /* Ajusta la altura mínima en móviles */
+      max-height: 80vh; /* El contenedor puede crecer hasta el 80% de la pantalla en móviles */
+      height: auto;
+    }
+  }
+  
+  /* Ajustes para tablets */
+  @media screen and (min-width: 600px) and (max-width: 1024px) {
+    .whatsapp-button-container {
+      bottom: 15px;
+      right: 15px;
+    }
+  
+    .whatsapp-button-container .floating-whatsapp-chatbox {
+      min-height: 320px; /* Ajusta la altura mínima en tablets */
+      max-height: 85vh;
+      height: auto;
+    }
+  }

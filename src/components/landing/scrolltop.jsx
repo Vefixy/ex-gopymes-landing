@@ -64,7 +64,7 @@ const ScrollToTopButton = () => {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0 }}
             transition={{ duration: 0.3 }}
-            style={{ position: 'fixed', bottom: '2rem', right: '2rem' }}
+            style={{ position: 'fixed', bottom: '2rem', left: '2rem' }} 
           >
             <IconButton
               onClick={scrollToTop}
@@ -82,7 +82,7 @@ const ScrollToTopButton = () => {
       </AnimatePresence>
 
       {animateParticles && (
-        <div style={{ position: 'fixed', bottom: '2rem', right: '2rem', pointerEvents: 'none' }}>
+        <div style={{ position: 'fixed', bottom: '2rem', left: '2rem', pointerEvents: 'none' }}>  
           {generateParticles()}
         </div>
       )}

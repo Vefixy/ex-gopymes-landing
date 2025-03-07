@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Button,
   Flex,
@@ -8,11 +8,15 @@ import {
   Heading,
   Input,
   Stack,
+  InputGroup,
+  InputLeftElement,
+  InputRightElement,
   useColorModeValue,
   useBreakpointValue,
   useDisclosure,
 } from '@chakra-ui/react';
-import { FaArrowLeft } from 'react-icons/fa';
+import { FaArrowLeft, FaLock, FaEye, FaEyeSlash } from 'react-icons/fa';
+import { MdEmail } from "react-icons/md";
 import { useNavigate } from 'react-router-dom';
 import Spline from '@splinetool/react-spline';
 import GetDemo from './getdemo';
@@ -22,6 +26,11 @@ export default function SplitScreen() {
   const bgColor = useColorModeValue('blue.50', 'blue.900');
   const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
+
+  // Estado para mostrar u ocultar la contraseña
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handlePasswordVisibility = () => setShowPassword(!showPassword);
 
   return (
     <>
@@ -39,14 +48,39 @@ export default function SplitScreen() {
           </Button>
           <Stack spacing={4} w={'full'} maxW={'md'}>
             <Heading fontSize={'2xl'}>Bienvenido a nuestro CRM.</Heading>
-            <Text fontSize={'lg'} color={'gray.600'}>Inicia sesión para ver las últimas actualizaciones.</Text>
+            <Text fontSize={'lg'} color={'gray.600'}>
+              Inicia sesión para ver las últimas actualizaciones.
+            </Text>
             <FormControl id="email">
               <FormLabel>Correo electrónico</FormLabel>
-              <Input type="email" placeholder="Ingresa tu email" />
+              <InputGroup>
+                <InputLeftElement pointerEvents="none">
+                  <MdEmail color="gray.300" />
+                </InputLeftElement>
+                <Input type="email" placeholder="Ingresa tu email" />
+              </InputGroup>
             </FormControl>
             <FormControl id="password">
               <FormLabel>Contraseña</FormLabel>
-              <Input type="password" placeholder="Ingresa tu contraseña" />
+              <InputGroup>
+                <InputLeftElement pointerEvents="none">
+                  <FaLock color="gray.300" />
+                </InputLeftElement>
+                <Input
+                  type={showPassword ? 'text' : 'password'}
+                  placeholder="Ingresa tu contraseña"
+                />
+                <InputRightElement>
+                  <Button
+                    variant="ghost"
+                    size={1}
+                    onClick={handlePasswordVisibility}
+                    _focus={{ boxShadow: 'none' }}
+                  >
+                    {showPassword ? <FaEyeSlash/> : <FaEye/>}
+                  </Button>
+                </InputRightElement>
+              </InputGroup>
             </FormControl>
             <Stack spacing={6}>
               <Button colorScheme={'blue'} variant={'solid'}>
